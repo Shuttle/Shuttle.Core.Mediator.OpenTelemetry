@@ -17,7 +17,7 @@ services.AddServiceBusInstrumentation(builder =>
 
 	// or bind from configuration
 	configuration
-		.GetSection(OpenTelemetryOptions.SectionName)
+		.GetSection(MediatorOpenTelemetryOptions.SectionName)
 		.Bind(builder.Options);
 });
 
