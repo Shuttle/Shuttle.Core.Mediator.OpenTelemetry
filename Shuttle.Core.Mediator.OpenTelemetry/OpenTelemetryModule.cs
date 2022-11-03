@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Microsoft.Extensions.Options;
 using OpenTelemetry.Trace;
 using Shuttle.Core.Contract;
@@ -13,7 +12,6 @@ namespace Shuttle.Core.Mediator.OpenTelemetry
         private readonly IMediator _mediator;
         private readonly ISerializer _serializer;
 
-        private readonly MediatorOpenTelemetryOptions _openTelemetryOptions;
         private readonly Tracer _tracer;
         private readonly Dictionary<Guid, TelemetrySpan> _telemetrySpans = new Dictionary<Guid, TelemetrySpan>();
 
@@ -24,9 +22,7 @@ namespace Shuttle.Core.Mediator.OpenTelemetry
             Guard.AgainstNull(tracerProvider, nameof(tracerProvider));
             Guard.AgainstNull(mediator, nameof(mediator));
 
-            _openTelemetryOptions = openTelemetryOptions.Value;
-
-            if (!_openTelemetryOptions.Enabled)
+            if (!openTelemetryOptions.Value.Enabled)
             {
                 return;
             }
@@ -67,22 +63,6 @@ namespace Shuttle.Core.Mediator.OpenTelemetry
             Guard.AgainstNull(e, nameof(e));
 
             var telemetrySpan = _tracer.StartActiveSpan("Send");
-
-            try
-            {
-                if (_openTelemetryOptions.IncludeSerializedMessage && _serializer != null)
-                {
-                    using (var stream = _serializer.Serialize(e.Message))
-                    using (var reader = new StreamReader(stream))
-                    {
-                        telemetrySpan?.SetAttribute("SerializedMessage", reader.ReadToEnd());
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                telemetrySpan?.SetAttribute("SerializedMessage", ex.Message);
-            }
 
             telemetrySpan?.SetAttribute("MessageType", e.Message.GetType().FullName);
 

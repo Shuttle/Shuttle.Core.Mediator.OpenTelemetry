@@ -8,33 +8,27 @@ namespace Shuttle.Core.Mediator.OpenTelemetry
 {
     public static class ServiceCollectionExtensions
     {
-        public static TracerProviderBuilder AddMediatorSource(this TracerProviderBuilder builder)
+        public static TracerProviderBuilder AddMediatorInstrumentation(this TracerProviderBuilder tracerProviderBuilder, Action<OpenTelemetryBuilder> builder = null)
         {
-            Guard.AgainstNull(builder, nameof(builder));
+            Guard.AgainstNull(tracerProviderBuilder, nameof(tracerProviderBuilder));
 
-            builder.AddSource("Shuttle.Core.Mediator");
+            tracerProviderBuilder.AddSource("Shuttle.Core.Mediator");
 
-            return builder;
-        }
-
-        public static IServiceCollection AddMediatorInstrumentation(this IServiceCollection services,
-            Action<OpenTelemetryBuilder> builder = null)
-        {
-            Guard.AgainstNull(services, nameof(services));
-
-            var openTelemetryBuilder = new OpenTelemetryBuilder(services);
-
-            builder?.Invoke(openTelemetryBuilder);
-
-            services.AddOptions<MediatorOpenTelemetryOptions>().Configure(options =>
+            tracerProviderBuilder.ConfigureServices(services =>
             {
-                options.Enabled = openTelemetryBuilder.Options.Enabled;
-                options.IncludeSerializedMessage = openTelemetryBuilder.Options.IncludeSerializedMessage;
+                var openTelemetryBuilder = new OpenTelemetryBuilder(services);
+
+                builder?.Invoke(openTelemetryBuilder);
+
+                services.AddOptions<MediatorOpenTelemetryOptions>().Configure(options =>
+                {
+                    options.Enabled = openTelemetryBuilder.Options.Enabled;
+                });
+
+                services.AddPipelineModule<OpenTelemetryModule>();
             });
 
-            services.AddPipelineModule<OpenTelemetryModule>();
-
-            return services;
+            return tracerProviderBuilder;
         }
     }
 }

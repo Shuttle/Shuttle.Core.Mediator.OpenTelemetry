@@ -5,6 +5,5 @@
         public const string SectionName = "Shuttle:Instrumentation:Mediator";
 
         public bool Enabled { get; set; } = true;
-        public bool IncludeSerializedMessage { get; set; } = true;
     }
 }
