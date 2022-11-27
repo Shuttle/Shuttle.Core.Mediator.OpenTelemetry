@@ -10,9 +10,7 @@ namespace Shuttle.Core.Mediator.OpenTelemetry
 
         public OpenTelemetryBuilder(IServiceCollection services)
         {
-            Guard.AgainstNull(services, nameof(services));
-
-            Services = services;
+            Services = Guard.AgainstNull(services, nameof(services));
         }
 
         public MediatorOpenTelemetryOptions Options

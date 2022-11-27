@@ -19,16 +19,14 @@ namespace Shuttle.Core.Mediator.OpenTelemetry
         {
             Guard.AgainstNull(openTelemetryOptions, nameof(openTelemetryOptions));
             Guard.AgainstNull(openTelemetryOptions.Value, nameof(openTelemetryOptions.Value));
-            Guard.AgainstNull(tracerProvider, nameof(tracerProvider));
-            Guard.AgainstNull(mediator, nameof(mediator));
-
+            
             if (!openTelemetryOptions.Value.Enabled)
             {
                 return;
             }
 
-            _tracer = tracerProvider.GetTracer("Shuttle.Core.Mediator");
-            _mediator = mediator;
+            _tracer = Guard.AgainstNull(tracerProvider, nameof(tracerProvider)).GetTracer("Shuttle.Core.Mediator");
+            _mediator = Guard.AgainstNull(mediator, nameof(mediator));
             _serializer = serializer;
 
             _mediator.Sending += Sending;
