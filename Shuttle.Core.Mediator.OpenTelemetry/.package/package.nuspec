@@ -3,7 +3,7 @@
 <package>
 	<metadata>
 		<id>Shuttle.Core.Mediator.OpenTelemetry</id>
-		<version>1.0.2-beta.3</version>
+		<version>1.4.0-rc.4</version>
 		<authors>Eben Roux</authors>
 		<owners>Eben Roux</owners>
 		<license type="expression">BSD-3-Clause</license>
@@ -13,13 +13,13 @@
 		<repository type="git" url="https://github.com/Shuttle/Shuttle.Core.Mediator.OpenTelemetry.git" />
 		<projectUrl>https://github.com/Shuttle/Shuttle.Core.Mediator.OpenTelemetry</projectUrl>
 		<description>OpenTelemetry instrumentation for Shuttle.Core.Mediator implementations.</description>
-		<copyright>Copyright (c) 2022, Eben Roux</copyright>
+		<copyright>Copyright (c) 2023, Eben Roux</copyright>
 		<tags>opentelemetry instrumentation</tags>
 		<dependencies>
-      <dependency id="OpenTelemetry" version="1.4.0-beta.3" />
-      <dependency id="Shuttle.Core.Mediator" version="13.1.1" />
+      <dependency id="OpenTelemetry" version="1.4.0-rc.4" />
+      <dependency id="Shuttle.Core.Mediator" version="14.0.0" />
       <dependency id="Shuttle.Core.Pipelines" version="12.1.1" />
-      <dependency id="Shuttle.Core.Serialization" version="10.0.7" />
+      <dependency id="Shuttle.Core.Serialization" version="11.0.0" />
 		</dependencies>
 	</metadata>
 	<files>
