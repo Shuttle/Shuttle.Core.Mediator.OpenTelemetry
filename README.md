@@ -13,7 +13,6 @@ services.AddServiceBusInstrumentation(builder =>
 {
 	// default values
     builder.Options.Enabled = true;
-    builder.Options.IncludeSerializedMessage = true;
 
 	// or bind from configuration
 	configuration
@@ -27,4 +26,3 @@ services.AddServiceBusInstrumentation(builder =>
 | Option | Default	| Description |
 | --- | --- | --- | 
 | `Enabled` | `true` | Indicates whether to perform instrumentation. |
-| `IncludeSerializedMessage` | `true` | If 'true', includes the serialized message as attribute `SerializedMessage` in the trace. |
