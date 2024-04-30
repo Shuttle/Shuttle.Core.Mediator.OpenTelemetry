@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry.Trace;
 using Shuttle.Core.Contract;
-using Shuttle.Core.Pipelines;
 
 namespace Shuttle.Core.Mediator.OpenTelemetry
 {
@@ -25,7 +24,7 @@ namespace Shuttle.Core.Mediator.OpenTelemetry
                     options.Enabled = openTelemetryBuilder.Options.Enabled;
                 });
 
-                services.AddPipelineModule<OpenTelemetryModule>();
+                services.AddHostedService<OpenTelemetryHostedService>();
             });
 
             return tracerProviderBuilder;
